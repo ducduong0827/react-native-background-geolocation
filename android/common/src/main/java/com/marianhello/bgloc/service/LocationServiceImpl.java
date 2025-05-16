@@ -58,6 +58,7 @@ import com.marianhello.bgloc.sync.AccountHelper;
 import com.marianhello.bgloc.sync.SyncService;
 import com.marianhello.logging.LoggerManager;
 import com.marianhello.logging.UncaughtExceptionLogger;
+import android.content.pm.ServiceInfo;
 
 import org.chromium.content.browser.ThreadUtils;
 import org.json.JSONException;
@@ -414,7 +415,11 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
                 mProvider.onCommand(LocationProvider.CMD_SWITCH_MODE,
                         LocationProvider.FOREGROUND_MODE);
             }
-            super.startForeground(NOTIFICATION_ID, notification);
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
+                super.startForeground(NOTIFICATION_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION);
+            } else {
+                super.startForeground(NOTIFICATION_ID, notification);
+            }
             mIsInForeground = true;
         }
     }
@@ -630,7 +635,11 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
 
     @Override
     public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
+        if (Build.VERSION.SDK_INT >= 34) {
+        return super.registerReceiver(receiver, filter, null, mServiceHandler, Context.RECEIVER_NOT_EXPORTED);
+      } else {
         return super.registerReceiver(receiver, filter, null, mServiceHandler);
+      }
     }
 
     @Override
