@@ -52,12 +52,12 @@ repositories {
     maven {
         url 'https://maven.google.com'
     }
-    jcenter()
+    mavenCentral()
 }
 
 android {
-    compileSdkVersion project.ext.getCompileSdkVersion()
-    buildToolsVersion project.ext.getBuildToolsVersion()
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
     if (hasApp) {
         evaluationDependsOn(':app')
     }
@@ -70,8 +70,8 @@ android {
 
     defaultConfig {
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-        minSdkVersion project.ext.getMinSdkVersion()
-        targetSdkVersion project.ext.getTargetSdkVersion()
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1 // intentionally not updating version as we're not uploading to any java repository
         versionName "1.0"
     }
