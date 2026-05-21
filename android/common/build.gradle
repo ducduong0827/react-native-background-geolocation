@@ -31,7 +31,6 @@ buildscript {
             url 'https://maven.google.com/'
             name 'Google'
         }
-        jcenter()
         mavenCentral()
     }
     dependencies {
@@ -47,13 +46,13 @@ allprojects {
         maven {
             url 'https://maven.google.com'
         }
-        jcenter()
+        mavenCentral()
     }
 }
 
 android {
-    compileSdkVersion project.ext.getCompileSdkVersion()
-    buildToolsVersion project.ext.getBuildToolsVersion()
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     // Tip: https://stackoverflow.com/questions/39987669/renamingdelegatingcontext-is-deprecated-how-do-we-test-sqlite-db-now/52170737#52170737
     // Gradle automatically adds 'android.test.runner' as a dependency.
@@ -66,7 +65,7 @@ android {
         resValue "string", resourcePrefix + "account_type", accountPrefix + '.account'
         resValue "string", resourcePrefix + "content_authority", accountPrefix + '.provider'
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-        minSdkVersion project.ext.getMinSdkVersion()
+        minSdkVersion rootProject.ext.minSdkVersion
         versionCode 1
         versionName "1.0"
     }
